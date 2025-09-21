@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACF2L - Aéro-Club de Frotey-les-Lure</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1976d2;
+            --secondary: #ff5722;
+            --accent: #4caf50;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-section {
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background: #1565c0;
+            border-color: #1565c0;
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, var(--primary), #1565c0);
+        }
+        
+        .bg-gradient-secondary {
+            background: linear-gradient(135deg, var(--secondary), #e64a19);
+        }
+        
+        .bg-gradient-accent {
+            background: linear-gradient(135deg, var(--accent), #388e3c);
+        }
+        
+        .pricing-card {
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            border: 2px solid var(--primary);
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .gallery-item img {
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(25,118,209,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .webcam-placeholder {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+        
+        /* Animation pour l'indicateur de scroll */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        /* Effet de parallaxe pour l'image de fond */
+        .hero-background {
+            background-attachment: fixed;
+        }
+        
+        /* Amélioration du contraste du texte */
+        .hero-section .text-white {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        /* Animation d'apparition */
+        .fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+		<div class="container">
+            <a class="navbar-brand" href="#home">
+                <img src="images/logo.png" alt="ACF2L">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#activities">Activités</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ulm">Types d'ULM</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#infrastructure">Infrastructures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#accommodation">Hébergement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Tarifs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Galerie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section d-flex align-items-center position-relative" style="
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./images/image.webp') center/cover no-repeat;
+        min-height: 100vh;
+        background-attachment: fixed;
+        background-color: #87CEEB;
+    ">
+        
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-10">
+                    <!-- Logo AC2L Style -->
+                    <div class="mb-5 fade-in" style="animation-delay: 0.2s;">
+                        <h1 class="display-1 fw-bold text-white mb-0" style="
+                            font-family: 'Arial', sans-serif;
+                            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+                            letter-spacing: 8px;
+                            font-weight: 900;
+                            text-transform: uppercase;
+                        ">AC2L</h1>
+                        <div class="text-white mt-2" style="font-size: 1.2rem; letter-spacing: 2px;">AÉRO-CLUB DE FROTEY-LES-LURE</div>
+                    </div>
+                    
+                    <!-- Main Message -->
+                    <div class="mb-5 fade-in" style="animation-delay: 0.4s;">
+                        <p class="display-6 text-white fw-normal mb-4" style="
+                            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+                            line-height: 1.3;
+                            max-width: 800px;
+                            margin: 0 auto;
+                        ">
+                            L'association vous offre la chance de pratiquer l'aviation légère dans un environnement exceptionnel
+                        </p>
+                    </div>
+                    
+                    <!-- Call to Action Button -->
+                    <div class="mb-4 fade-in" style="animation-delay: 0.6s;">
+                        <a href="#activities" class="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold" style="
+                            font-size: 1.2rem;
+                            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                            border: 2px solid rgba(255,255,255,0.2);
+                            transition: all 0.3s ease;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(0,0,0,0.4)'" 
+                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'">
+                            Découvrez nos offres
+                        </a>
+                    </div>
+                    
+                    <!-- Additional Info -->
+                    <div class="text-white-50 fade-in" style="animation-delay: 0.8s;">
+                        <p class="mb-0" style="font-size: 1.1rem;">
+                            <i class="fas fa-plane me-2"></i>
+                            Formation • Baptêmes • Hébergement • 8 Appareils École
+                        </p>
+                    </div>
+                </div>
+					</div>
+				</div>
+				
+        <!-- Scroll Indicator -->
+        <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4" style="z-index: 1;">
+            <div class="text-white text-center">
+                <div class="mb-2">
+                    <i class="fas fa-chevron-down fa-2x" style="animation: bounce 2s infinite;"></i>
+                </div>
+                <small>Découvrez plus</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">À Propos de l'ACF2L</h2>
+                    <p class="lead text-muted">Association Loi 1901, agréée Jeunesse et Sports, adhérente à la FFULM</p>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4">
+                    <h3 class="h2 mb-4">Notre Histoire</h3>
+                    <p class="mb-4">L'Aéro-Club de Frotey-les-Lure (ACF2L) est né de la fusion de l'Aéro-Club de l'Ill (Vesoul) et de l'Aéro-Club Marin-La-Meslée (Frotey-les-Lure), au sein de l'Association des Aéro-Clubs de la Bourgogne-Franche-Comté.</p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Association Agréée</h5>
+                                    <p class="mb-0 text-muted">Enregistrée n°04674 - Agrément n° AS70986858</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Siège Social</h5>
+                                    <p class="mb-0 text-muted">62, Avenue de la République, 70200 Lure</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-plane"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">FFULM</h5>
+                                    <p class="mb-0 text-muted">Adhérente à la Fédération Française d'ULM</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+                <div class="col-lg-6">
+                    <img src="images/about.png" alt="À propos ACF2L" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activities Section -->
+    <section id="activities" class="py-5">
+			<div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">Nos Activités</h2>
+                    <p class="lead text-muted">Formation de pilotes, instructeurs et baptêmes de l'air</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle mx-auto mb-3">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h5 class="card-title">Formation Pilotes</h5>
+                            <p class="card-text">Formation complète pour devenir pilote ULM avec instructeurs qualifiés et matériel moderne.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle mx-auto mb-3">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5 class="card-title">Formation Instructeurs</h5>
+                            <p class="card-text">Formation pour devenir instructeur ULM et transmettre votre passion de l'aviation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle mx-auto mb-3">
+                                <i class="fas fa-plane"></i>
+			</div>
+                            <h5 class="card-title">Baptêmes de l'Air</h5>
+                            <p class="card-text">Découvrez les joies du vol en ULM avec nos baptêmes de l'air dans un cadre exceptionnel.</p>
+									</div>
+								</div>
+							</div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle mx-auto mb-3">
+                                <i class="fas fa-wrench"></i>
+                            </div>
+                            <h5 class="card-title">Maintenance ULM</h5>
+                            <p class="card-text">Maintenance complète des ULM : moteur, structure, et tous les équipements de navigation.</p>
+									</div>
+								</div>
+							</div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle mx-auto mb-3">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h5 class="card-title">Restauration</h5>
+                            <p class="card-text">Service de restauration rapide sur place pour vos pauses entre les vols.</p>
+									</div>
+								</div>
+							</div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle mx-auto mb-3">
+                                <i class="fas fa-home"></i>
+						</div>
+                            <h5 class="card-title">Hébergement</h5>
+                            <p class="card-text">3 studios et 6 chambres pour l'hébergement des élèves stagiaires.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    </section>
+	
+    <!-- ULM Types Section -->
+    <section id="ulm" class="py-5 bg-light">
+		<div class="container">
+			<div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">Types d'ULM</h2>
+                    <p class="lead text-muted">6 classes d'ULM disponibles, 3 types d'appareils sur notre base</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="images/pendulaire.jpg" class="card-img-top" alt="ULM Pendulaire" style="height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Pendulaire</h5>
+                            <p class="card-text">ULM pendulaire avec aile delta. Sensation de vol unique et pilotage direct.</p>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary">Disponible</span>
+                                <span class="badge bg-success">Formation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="images/course-2.jpg" class="card-img-top" alt="ULM Multiaxes" style="height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Multiaxes</h5>
+                            <p class="card-text">ULM multiaxes avec commandes classiques. Idéal pour débuter l'aviation.</p>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary">Disponible</span>
+                                <span class="badge bg-success">Formation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="images/autogire-specification.jpg" class="card-img-top" alt="Autogire" style="height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Autogire</h5>
+                            <p class="card-text">Autogire ultraléger. Sécurité et stabilité exceptionnelles en vol.</p>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary">Disponible</span>
+                                <span class="badge bg-success">Formation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h3 class="card-title text-center mb-4">Les 6 Classes d'ULM</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Le paramoteur</li>
+                                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Le pendulaire</li>
+                                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Le multiaxes</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> L'autogire ultraléger</li>
+                                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> L'aérostat ultraléger</li>
+                                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> L'hélicoptère ultraléger</li>
+   </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					</div>
+				</div>
+			</div>
+    </section>
+			
+    <!-- Infrastructure Section -->
+    <section id="infrastructure" class="py-5">
+        <div class="container">
+			<div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">Nos Infrastructures</h2>
+                    <p class="lead text-muted">Plateforme ULM et Aérodrome privé de 45 hectares</p>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4">
+                    <img src="images/salleCours.png" alt="Infrastructures ACF2L" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="h2 mb-4">Sur le Site</h3>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-light rounded">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">45 Hectares</h5>
+                                    <p class="mb-0 text-muted">Surface totale dégagée</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-light rounded">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-road"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">2 Pistes en X</h5>
+                                    <p class="mb-0 text-muted">800m et 450m de longueur</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-light rounded">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Hydrosurface</h5>
+                                    <p class="mb-0 text-muted">8 hectares pour l'hydraviation</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-light rounded">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-warehouse"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">3 Hangars</h5>
+                                    <p class="mb-0 text-muted">4300 m² de surface couverte</p>
+						</div>
+					</div>
+				</div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-light rounded">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-wifi"></i>
+						</div>
+                                <div>
+                                    <h5 class="mb-1">WiFi Gratuit</h5>
+                                    <p class="mb-0 text-muted">Connexion sur toute la base</p>
+					</div>
+				</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+    <!-- Accommodation Section -->
+    <section id="accommodation" class="py-5 bg-light">
+		<div class="container">
+			<div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">Hébergement</h2>
+                    <p class="lead text-muted">Studios et chambres pour les élèves stagiaires</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-gradient-primary text-white">
+                            <h3 class="card-title mb-0">Appartement</h3>
+                            <small>Caution: 100€</small>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Kitchenette équipée</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Salle de bain complète (lavabo, douche, WC)</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Télévision</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Lit 140cm</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Draps fournis</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Électricité en plus (compteur individuel)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-gradient-secondary text-white">
+                            <h3 class="card-title mb-0">Chambre</h3>
+                            <small>Caution: 100€</small>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Salle de bain complète (lavabo, douche, WC)</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Télévision</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Lit 140cm</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Draps fournis</li>
+                            </ul>
+                        </div>
+                    </div>
+					</div>
+				</div>
+			</div>
+    </section>
+			
+	
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-5 bg-light">
+		<div class="container">
+			<div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">Tarification</h2>
+                    <p class="lead text-muted">Formation, baptêmes et services</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card pricing-card h-100">
+                        <div class="card-header bg-gradient-primary text-white text-center">
+                            <h3 class="card-title">Formation Pilote</h3>
+                            <div class="display-6 fw-bold">Sur devis</div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Cours théoriques</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Heures de vol</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Instructeur qualifié</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Matériel inclus</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Préparation examen</li>
+                            </ul>
+                            <a href="#contact" class="btn btn-primary w-100">Demander un devis</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card pricing-card featured h-100">
+                        <div class="pricing-badge">Populaire</div>
+                        <div class="card-header bg-gradient-secondary text-white text-center">
+                            <h3 class="card-title">Baptême de l'Air</h3>
+                            <div class="display-6 fw-bold">120€<small class="fs-6">/vol</small></div>
+					</div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 30 minutes de vol</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Briefing sécurité</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Pilote expérimenté</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Certificat de vol</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Photos souvenir</li>
+                            </ul>
+                            <a href="#contact" class="btn btn-primary w-100">Réserver</a>
+				</div>
+			</div>
+					</div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card pricing-card h-100">
+                        <div class="card-header bg-gradient-accent text-white text-center">
+                            <h3 class="card-title">Hébergement</h3>
+                            <div class="display-6 fw-bold">35€<small class="fs-6">/nuit</small></div>
+				</div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Chambre individuelle</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Salle de bain privée</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> WiFi gratuit</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Draps fournis</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Caution 100€</li>
+						</ul>
+                            <a href="#contact" class="btn btn-primary w-100">Réserver</a>
+                        </div>
+                    </div>
+					</div>
+				</div>
+		</div>
+	</section>
+	
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5">
+		<div class="container">
+			<div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold section-title">Galerie Photos</h2>
+                    <p class="lead text-muted">Nos membres et appareils en action</p>
+				</div>
+			</div>
+            <div class="row g-4">
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/bapteme1.jpg" alt="Baptême de l'air" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/pendulaire1.jpg" alt="ULM Pendulaire" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/troisAutogires.jpg" alt="Autogires" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/course-1.jpg" alt="Formation" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/course-2.jpg" alt="ULM Multiaxes" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/course-3.jpg" alt="Vol" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/course-4.jpg" alt="Pilotage" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="gallery-item">
+                        <img src="images/course-5.jpg" alt="Formation ULM" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-light">
+		<div class="container">
+			<div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h2 class="display-5 fw-bold section-title">Contactez-nous</h2>
+                    <p class="lead text-muted">Association enregistrée n°04674 - Agrément n° AS70986858</p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Email</h5>
+                                    <p class="mb-0"><a href="mailto:acf2l@gmail.com" class="text-decoration-none">acf2l@gmail.com</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Téléphone</h5>
+                                    <p class="mb-0"><a href="tel:+330160566060" class="text-decoration-none">+33 01 60 56 60 60</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <div class="icon-circle me-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Adresse</h5>
+                                    <p class="mb-0">62, Avenue de la République<br>70200 Lure</p>
+                                </div>
+                            </div>
+					</div>
+					</div>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+					</div>
+				</div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h3 class="card-title">Envoyez-nous un message</h3>
+                            <p class="text-muted">Nous vous répondrons dans les plus brefs délais</p>
+                            <form>
+                                <div class="row g-3">
+				<div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Votre nom" required>
+					</div>
+                                    <div class="col-md-6">
+                                        <input type="email" class="form-control" placeholder="Votre email" required>
+								</div>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" placeholder="Sujet" required>
+								</div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" rows="5" placeholder="Votre message" required></textarea>
+								</div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">Envoyer le message</button>
+								</div>
+							</div>
+						</form>
+					</div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+		<div class="container">
+			<div class="row">
+                <div class="col-lg-12 text-center">
+                    <img src="images/logo.png" alt="ACF2L Logo" height="80" class="mb-3">
+                    <h3>Aéro-Club de Frotey-les-Lure</h3>
+                    <p class="text-light">Association Loi 1901 - Agréée Jeunesse et Sports - Adhérente FFULM</p>
+                    <hr class="my-4">
+                    <p class="mb-0">&copy; 2024 ACF2L. Tous droits réservés.</p>
+                    <p class="mb-0"><strong>IUT MEAUX</strong> - Classe : MMI2 - Module : R312 Front-Intégration</p>
+                    <p class="mb-0">Présentation de l'Aéro-Club ACF2L</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Vérifier si l'image de fond se charge
+        window.addEventListener('load', function() {
+            const heroSection = document.getElementById('home');
+            const img = new Image();
+            img.onload = function() {
+                console.log('Image de fond chargée avec succès');
+            };
+            img.onerror = function() {
+                console.log('Erreur de chargement de l\'image de fond');
+                // Fallback vers une couleur de fond
+                heroSection.style.background = 'linear-gradient(135deg, #87CEEB, #98D8E8)';
+            };
+            img.src = './images/image.webp';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to navigation links
+        window.addEventListener('scroll', function() {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
